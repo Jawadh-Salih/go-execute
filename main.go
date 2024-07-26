@@ -2,22 +2,24 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
-	"os/exec"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
-	cmd := exec.Command("ls") // Replace "ls" with your desired command
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGTSTP)
 
-	// Set the command's output to os.Stdout
-	cmd.Stdout = os.Stdout
+	done := make(chan bool, 1)
+	go func() {
+		sig := <-sigCh
+		fmt.Println(sig)
 
-	// Run the command
-	err := cmd.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
+		done <- true
+	}()
 
-	fmt.Println("Command executed successfully!")
+	fmt.Println("Awaiting signal")
+	<-done
+	fmt.Println("exiting")
 }
