@@ -23,3 +23,7 @@ So basically you can put this binary in your path and then run any command with 
 So when you want to terminate the process if it's a running process of a command you execute, you can easily use `ctrl + Z` or `ctrl + C` and it will make sure that the underlying process is killed too... 
 
 I am improving this small wrapper and I would like anyone's comment and ideas on this and any further usage we can make to this. 
+
+Issues are always welcome. 
+
+Cheers... 
